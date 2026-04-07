@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassSync Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="login-bg">
+
+<div class="login-glow"></div>
+
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="login-logo">
+      <div class="logo-icon">📘</div>
+      <h1>ClassSync</h1>
+    </div>
+    <p class="login-tagline">Stay updated. Stay ahead.</p>
+
+    <div class="field-wrap">
+      <label class="field-label">Full Name</label>
+      <input id="l-name" type="text" placeholder="e.g. Saddiq Ahmed" autocomplete="name">
+    </div>
+
+    <div class="field-wrap">
+      <label class="field-label">Roll Number</label>
+      <input id="l-roll" type="text" placeholder="e.g. 23B81A6601"
+             oninput="this.value = this.value.toUpperCase()">
+    </div>
+
+    <div class="field-wrap">
+      <label class="field-label">Password</label>
+      <div class="password-wrap">
+        <input id="l-pass" type="password" placeholder="Enter password">
+        <button class="eye-btn" onclick="togglePwd()" type="button">👁</button>
+      </div>
+    </div>
+
+    <div class="remember-row">
+      <input type="checkbox" id="remember">
+      <label for="remember">Remember me</label>
+    </div>
+
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+
+    <div class="login-error" id="loginErr"></div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

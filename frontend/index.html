@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClassSync</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">📘</div>
+      <span>ClassSync</span>
+    </div>
+
+    <div class="nav-section-label">Browse</div>
+
+    <button class="nav-btn active" onclick="setCategory('all',this)">
+      <span class="nav-icon">🏠</span> All Posts
+      <span class="nav-count" id="cnt-all">0</span>
+    </button>
+    <button class="nav-btn" onclick="setCategory('assignment',this)">
+      <span class="nav-icon">📝</span> Assignments
+      <span class="nav-count" id="cnt-assignment">0</span>
+    </button>
+    <button class="nav-btn" onclick="setCategory('record',this)">
+      <span class="nav-icon">📋</span> Records
+      <span class="nav-count" id="cnt-record">0</span>
+    </button>
+    <button class="nav-btn" onclick="setCategory('classwork',this)">
+      <span class="nav-icon">🏫</span> Classwork
+      <span class="nav-count" id="cnt-classwork">0</span>
+    </button>
+    <button class="nav-btn" onclick="setCategory('homework',this)">
+      <span class="nav-icon">🏠</span> Homework
+      <span class="nav-count" id="cnt-homework">0</span>
+    </button>
+    <button class="nav-btn" onclick="setCategory('important',this)">
+      <span class="nav-icon">⚠️</span> Important
+      <span class="nav-count" id="cnt-important">0</span>
+    </button>
+
+    <div class="nav-section-label" style="margin-top:16px;">Status</div>
+    <button class="nav-btn" onclick="setFilter('pending',this)">
+      <span class="nav-icon">⏳</span> Pending
+      <span class="nav-count" id="cnt-pending">0</span>
+    </button>
+    <button class="nav-btn" onclick="setFilter('done',this)">
+      <span class="nav-icon">✅</span> Completed
+      <span class="nav-count" id="cnt-done">0</span>
+    </button>
+
+    <div class="sidebar-bottom">
+      <div class="user-chip">
+        <div class="avatar" id="userAvatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userNameDisplay">—</div>
+          <div class="user-roll" id="userRollDisplay">—</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="searchInput" placeholder="Search posts…" oninput="renderFeed()">
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="renderFeed()">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+        <option value="due">Due Date</option>
+        <option value="subject">Subject</option>
+      </select>
+      <div class="view-toggle">
+        <button class="active" id="gridViewBtn" onclick="setView('grid')" title="Grid">⊞</button>
+        <button id="listViewBtn" onclick="setView('list')" title="List">≡</button>
+      </div>
+      <button class="post-btn" onclick="openForm()">＋ Post</button>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-chip"><span class="num" id="s-total">0</span><span class="label">Total</span></div>
+      <div class="stat-chip"><span class="num" id="s-pending">0</span><span class="label">Pending</span></div>
+      <div class="stat-chip"><span class="num" id="s-done">0</span><span class="label">Done</span></div>
+      <div class="stat-chip"><span class="num" id="s-overdue">0</span><span class="label">Overdue</span></div>
+    </div>
+
+    <!-- FEED -->
+    <div class="feed-wrap">
+      <div class="feed" id="feed"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- POST FORM POPUP -->
+<div class="popup-overlay" id="formPopup">
+  <div class="popup-card">
+    <div class="popup-title">
+      <span>✏️ New Post</span>
+      <button class="close-btn" onclick="closeForm()">✕</button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="f-cat">
+          <option value="assignment">📝 Assignment</option>
+          <option value="record">📋 Record</option>
+          <option value="classwork">🏫 Classwork</option>
+          <option value="homework">🏠 Homework</option>
+          <option value="important">⚠️ Important</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select id="f-sub" onchange="onSubChange()"></select>
+      </div>
+    </div>
+
+    <div class="form-group" id="customSubGroup" style="display:none;">
+      <label>Custom Subject</label>
+      <input type="text" id="f-custom" placeholder="Type subject name…">
+    </div>
+
+    <div class="form-group">
+      <label>Topic / Title</label>
+      <input type="text" id="f-topic" placeholder="What's this about?">
+    </div>
+
+    <div class="form-group">
+      <label>Extra Info</label>
+      <textarea id="f-extra" placeholder="Additional details, notes, page numbers…"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Due Date</label>
+      <input type="date" id="f-due">
+    </div>
+
+    <div class="form-group">
+      <label>Attachment (image)</label>
+      <label class="file-label" for="f-img">
+        📎 <span id="fileLabelText">Click to attach an image</span>
+        <input type="file" id="f-img" accept="image/*" style="display:none" onchange="onFileChange()">
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeForm()">Cancel</button>
+      <button class="btn-primary" onclick="addPost()">Post →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
