@@ -1,5 +1,4 @@
-console.log("NEW VERSION LOADED");
-const API = 'https://classsync-7nxx.onrender.com/api/auth';
+const API = 'https://classsync-7nxx.onrender.com/api';
 
 let SUBJECTS = ['DS', 'DEVC', 'Maths', 'Physics', 'Chemistry', 'English', 'EVS'];
 let posts = [];
@@ -79,7 +78,7 @@ async function doLogin() {
         // Try login first, register if not found
         let data;
         try {
-            data = await apiFetch('/login', {
+            data = await apiFetch('/auth/login', {
                 method: 'POST',
                 body: JSON.stringify({ roll, password })
             });

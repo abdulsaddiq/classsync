@@ -15,13 +15,6 @@ CORS(app,
      resources={r"/api/*": {"origins": "*"}},
      supports_credentials=False)
 
-# ✅ HANDLE PREFLIGHT (OPTIONS) REQUESTS
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-    return response
 
 # 🗄️ Init DB
 init_db()
