@@ -1,5 +1,5 @@
-console.log("API BASE:", API);
 const API = 'https://classsync-7nxx.onrender.com/api';
+console.log("API BASE:", API);
 
 let SUBJECTS = ['DS', 'DEVC', 'Maths', 'Physics', 'Chemistry', 'English', 'EVS'];
 let posts = [];
