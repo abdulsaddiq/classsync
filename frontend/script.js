@@ -1,4 +1,4 @@
-const API = 'https://classsync-7nxx.onrender.com';
+const API = 'https://classsync-7nxx.onrender.com/api';
 
 let SUBJECTS = ['DS', 'DEVC', 'Maths', 'Physics', 'Chemistry', 'English', 'EVS'];
 let posts = [];
