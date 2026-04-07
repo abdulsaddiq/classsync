@@ -7,7 +7,11 @@ from backend.routes.posts import posts_bp
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'classsync-secret-key-change-in-production'
 
-CORS(app, origins="*", supports_credentials=True)
+CORS(app,
+     origins=["https://classsync-six.vercel.app"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"],
+     supports_credentials=True)
 
 init_db()
 
