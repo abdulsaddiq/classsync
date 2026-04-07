@@ -50,7 +50,7 @@ def register():
         return jsonify({'error': str(e)}), 500
 
 
-# 🔐 LOGIN
+# 🔐 LOGIN (FULLY FIXED)
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -67,11 +67,21 @@ def login():
     ).fetchone()
     conn.close()
 
+    # ✅ handle user not found
     if not user:
-        return jsonify({'error': 'No account found.'}), 404
+        return jsonify({'error': 'No account found with this roll number.'}), 404
 
-    if not bcrypt.checkpw(password.encode(), user['password'].encode()):
-        return jsonify({'error': 'Incorrect password.'}), 401
+    # ✅ FIX: handle str/bytes password properly
+    stored_password = user['password']
+    if isinstance(stored_password, str):
+        stored_password = stored_password.encode()
+
+    try:
+        if not bcrypt.checkpw(password.encode(), stored_password):
+            return jsonify({'error': 'Incorrect password.'}), 401
+    except Exception as e:
+        print("BCRYPT ERROR:", e)
+        return jsonify({'error': 'Password verification failed.'}), 500
 
     token = generate_token(user['id'], user['name'], user['roll'])
 
