@@ -3,175 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClassSync</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>ClassSync — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Sidebar overlay (mobile) -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
-<div class="container">
+<div class="app-layout">
 
   <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon">📘</div>
-      <span>ClassSync</span>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+          <rect width="48" height="48" rx="13" fill="url(#sgrad)"/>
+          <path d="M14 16h20M14 24h14M14 32h18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="36" cy="32" r="6" fill="white" fill-opacity="0.9"/>
+          <path d="M33.5 32l1.5 1.5 3-3" stroke="#1a1f2e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="sgrad" x1="0" y1="0" x2="48" y2="48">
+              <stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">ClassSync</span>
+      </div>
+      <button class="sidebar-close-btn" onclick="closeSidebar()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+      </button>
     </div>
 
-    <div class="nav-section-label">Browse</div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Browse</div>
 
-    <button class="nav-btn active" onclick="setCategory('all',this)">
-      <span class="nav-icon">🏠</span> All Posts
-      <span class="nav-count" id="cnt-all">0</span>
-    </button>
-    <button class="nav-btn" onclick="setCategory('assignment',this)">
-      <span class="nav-icon">📝</span> Assignments
-      <span class="nav-count" id="cnt-assignment">0</span>
-    </button>
-    <button class="nav-btn" onclick="setCategory('record',this)">
-      <span class="nav-icon">📋</span> Records
-      <span class="nav-count" id="cnt-record">0</span>
-    </button>
-    <button class="nav-btn" onclick="setCategory('classwork',this)">
-      <span class="nav-icon">🏫</span> Classwork
-      <span class="nav-count" id="cnt-classwork">0</span>
-    </button>
-    <button class="nav-btn" onclick="setCategory('homework',this)">
-      <span class="nav-icon">🏠</span> Homework
-      <span class="nav-count" id="cnt-homework">0</span>
-    </button>
-    <button class="nav-btn" onclick="setCategory('important',this)">
-      <span class="nav-icon">⚠️</span> Important
-      <span class="nav-count" id="cnt-important">0</span>
-    </button>
+      <button class="nav-item active" onclick="setCategory('all',this)" data-cat="all">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V4zm6-1h2a1 1 0 011 1v12a1 1 0 01-1 1H8a1 1 0 01-1-1V4a1 1 0 011-1zm5 0h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
+        </span>
+        <span class="nav-item-label">All Posts</span>
+        <span class="nav-item-count" id="cnt-all">0</span>
+      </button>
 
-    <div class="nav-section-label" style="margin-top:16px;">Status</div>
-    <button class="nav-btn" onclick="setFilter('pending',this)">
-      <span class="nav-icon">⏳</span> Pending
-      <span class="nav-count" id="cnt-pending">0</span>
-    </button>
-    <button class="nav-btn" onclick="setFilter('done',this)">
-      <span class="nav-icon">✅</span> Completed
-      <span class="nav-count" id="cnt-done">0</span>
-    </button>
+      <button class="nav-item" onclick="setCategory('assignment',this)" data-cat="assignment">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"/></svg>
+        </span>
+        <span class="nav-item-label">Assignments</span>
+        <span class="nav-item-count" id="cnt-assignment">0</span>
+      </button>
+
+      <button class="nav-item" onclick="setCategory('record',this)" data-cat="record">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"/></svg>
+        </span>
+        <span class="nav-item-label">Records</span>
+        <span class="nav-item-count" id="cnt-record">0</span>
+      </button>
+
+      <button class="nav-item" onclick="setCategory('classwork',this)" data-cat="classwork">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/></svg>
+        </span>
+        <span class="nav-item-label">Classwork</span>
+        <span class="nav-item-count" id="cnt-classwork">0</span>
+      </button>
+
+      <button class="nav-item" onclick="setCategory('homework',this)" data-cat="homework">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+        </span>
+        <span class="nav-item-label">Homework</span>
+        <span class="nav-item-count" id="cnt-homework">0</span>
+      </button>
+
+      <button class="nav-item" onclick="setCategory('important',this)" data-cat="important">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"/></svg>
+        </span>
+        <span class="nav-item-label">Important</span>
+        <span class="nav-item-count" id="cnt-important">0</span>
+      </button>
+
+      <div class="nav-group-label" style="margin-top:20px">Status</div>
+
+      <button class="nav-item" onclick="setFilter('pending',this)">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg>
+        </span>
+        <span class="nav-item-label">Pending</span>
+        <span class="nav-item-count" id="cnt-pending">0</span>
+      </button>
+
+      <button class="nav-item" onclick="setFilter('done',this)">
+        <span class="nav-item-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+        </span>
+        <span class="nav-item-label">Completed</span>
+        <span class="nav-item-count" id="cnt-done">0</span>
+      </button>
+    </nav>
 
     <div class="sidebar-bottom">
-      <div class="user-chip">
-        <div class="avatar" id="userAvatar">?</div>
-        <div class="user-info">
+      <div class="user-card">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <div class="user-details">
           <div class="user-name" id="userNameDisplay">—</div>
           <div class="user-roll" id="userRollDisplay">—</div>
         </div>
+        <button class="user-menu-btn" onclick="doLogout()" title="Sign out">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"/></svg>
+        </button>
       </div>
-      <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
     </div>
-  </div>
+  </aside>
 
-  <!-- MAIN -->
-  <div class="main">
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
 
     <!-- TOPBAR -->
-    <div class="topbar">
-      <button class="hamburger" onclick="toggleSidebar()">☰</button>
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input id="searchInput" placeholder="Search posts…" oninput="renderFeed()">
-      </div>
-      <select class="sort-select" id="sortSelect" onchange="renderFeed()">
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-        <option value="due">Due Date</option>
-        <option value="subject">Subject</option>
-      </select>
-      <div class="view-toggle">
-        <button class="active" id="gridViewBtn" onclick="setView('grid')" title="Grid">⊞</button>
-        <button id="listViewBtn" onclick="setView('list')" title="List">≡</button>
-      </div>
-      <button class="post-btn" onclick="openForm()">＋ Post</button>
-    </div>
+    <header class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
+      </button>
 
-    <!-- STATS BAR -->
-    <div class="stats-bar">
-      <div class="stat-chip"><span class="num" id="s-total">0</span><span class="label">Total</span></div>
-      <div class="stat-chip"><span class="num" id="s-pending">0</span><span class="label">Pending</span></div>
-      <div class="stat-chip"><span class="num" id="s-done">0</span><span class="label">Done</span></div>
-      <div class="stat-chip"><span class="num" id="s-overdue">0</span><span class="label">Overdue</span></div>
+      <div class="topbar-title" id="topbarTitle">All Posts</div>
+
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/></svg>
+        <input id="searchInput" placeholder="Search posts…" oninput="debounceSearch()" autocomplete="off">
+        <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+        </button>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="sort-wrap">
+          <svg class="sort-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3z"/></svg>
+          <select class="sort-select" id="sortSelect" onchange="fetchAndRender()">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="due">Due Date</option>
+            <option value="subject">Subject</option>
+          </select>
+        </div>
+
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+          </button>
+          <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List view">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
+          </button>
+        </div>
+
+        <button class="new-post-btn" onclick="openForm()">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
+          <span>New Post</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+      <div class="stat-card" id="statTotal">
+        <div class="stat-num" id="s-total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-card" id="statPending">
+        <div class="stat-num pending" id="s-pending">0</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-card" id="statDone">
+        <div class="stat-num done" id="s-done">0</div>
+        <div class="stat-label">Done</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-card" id="statOverdue">
+        <div class="stat-num overdue" id="s-overdue">0</div>
+        <div class="stat-label">Overdue</div>
+      </div>
     </div>
 
     <!-- FEED -->
-    <div class="feed-wrap">
+    <div class="feed-container">
       <div class="feed" id="feed"></div>
     </div>
-
   </div>
 </div>
 
-<!-- POST FORM POPUP -->
-<div class="popup-overlay" id="formPopup">
-  <div class="popup-card">
-    <div class="popup-title">
-      <span>✏️ New Post</span>
-      <button class="close-btn" onclick="closeForm()">✕</button>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Category</label>
-        <select id="f-cat">
-          <option value="assignment">📝 Assignment</option>
-          <option value="record">📋 Record</option>
-          <option value="classwork">🏫 Classwork</option>
-          <option value="homework">🏠 Homework</option>
-          <option value="important">⚠️ Important</option>
-        </select>
+<!-- POST FORM MODAL -->
+<div class="modal-backdrop" id="formModal">
+  <div class="modal" id="formModalCard">
+    <div class="modal-header">
+      <div class="modal-title">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+        <span id="modalTitleText">New Post</span>
       </div>
-      <div class="form-group">
-        <label>Subject</label>
-        <select id="f-sub" onchange="onSubChange()"></select>
+      <button class="modal-close" onclick="closeForm()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-row-2">
+        <div class="form-field">
+          <label>Category</label>
+          <div class="select-wrap">
+            <select id="f-cat" onchange="onCatChange()">
+              <option value="assignment">Assignment</option>
+              <option value="record">Record</option>
+              <option value="classwork">Classwork</option>
+              <option value="homework">Homework</option>
+              <option value="important">Important</option>
+            </select>
+            <svg class="select-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+          </div>
+          <div class="cat-preview" id="catPreview"></div>
+        </div>
+        <div class="form-field">
+          <label>Subject</label>
+          <div class="select-wrap">
+            <select id="f-sub" onchange="onSubChange()"></select>
+            <svg class="select-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field" id="customSubGroup" style="display:none">
+        <label>Custom Subject</label>
+        <input type="text" id="f-custom" placeholder="Enter subject name…" class="form-input">
+      </div>
+
+      <div class="form-field">
+        <label>Topic / Title <span class="required">*</span></label>
+        <input type="text" id="f-topic" placeholder="What's this about?" class="form-input" maxlength="200">
+        <span class="char-count" id="topicCount">0/200</span>
+      </div>
+
+      <div class="form-field">
+        <label>Details & Notes</label>
+        <textarea id="f-extra" placeholder="Page numbers, instructions, additional context…" class="form-textarea" maxlength="1000"></textarea>
+        <span class="char-count" id="extraCount">0/1000</span>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-field">
+          <label>Due Date</label>
+          <input type="date" id="f-due" class="form-input">
+        </div>
+        <div class="form-field">
+          <label>Attachment</label>
+          <label class="file-drop" for="f-img" id="fileDrop">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+            <span id="fileLabelText">Upload image</span>
+            <input type="file" id="f-img" accept="image/*" style="display:none" onchange="onFileChange()">
+          </label>
+        </div>
+      </div>
+
+      <!-- Image preview -->
+      <div id="imgPreviewWrap" style="display:none">
+        <img id="imgPreview" class="img-preview" alt="preview">
+        <button class="img-remove" onclick="removeImg()">Remove</button>
       </div>
     </div>
 
-    <div class="form-group" id="customSubGroup" style="display:none;">
-      <label>Custom Subject</label>
-      <input type="text" id="f-custom" placeholder="Type subject name…">
-    </div>
-
-    <div class="form-group">
-      <label>Topic / Title</label>
-      <input type="text" id="f-topic" placeholder="What's this about?">
-    </div>
-
-    <div class="form-group">
-      <label>Extra Info</label>
-      <textarea id="f-extra" placeholder="Additional details, notes, page numbers…"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Due Date</label>
-      <input type="date" id="f-due">
-    </div>
-
-    <div class="form-group">
-      <label>Attachment (image)</label>
-      <label class="file-label" for="f-img">
-        📎 <span id="fileLabelText">Click to attach an image</span>
-        <input type="file" id="f-img" accept="image/*" style="display:none" onchange="onFileChange()">
-      </label>
-    </div>
-
-    <div class="form-actions">
+    <div class="modal-footer">
       <button class="btn-ghost" onclick="closeForm()">Cancel</button>
-      <button class="btn-primary" onclick="addPost()">Post →</button>
+      <button class="btn-primary" id="submitBtn" onclick="addPost()">
+        <span>Publish Post</span>
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-wrap" id="toastWrap"></div>
+<!-- IMAGE LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" alt="">
+  <button class="lightbox-close" onclick="closeLightbox()">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/></svg>
+  </button>
+</div>
 
+<div class="toast-wrap" id="toastWrap"></div>
 <script src="script.js"></script>
 </body>
 </html>
